@@ -1,29 +1,26 @@
 package com.example.CustomerList;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-
-import com.example.CustomerList.domain.Customer;
-import com.example.CustomerList.domain.CustomerRepo;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 @SpringBootApplication
 public class CustomerListApplication {
-	@Autowired
-	private CustomerRepo repository;
-
+	
 	public static void main(String[] args) {
 		SpringApplication.run(CustomerListApplication.class, args);
 	}
 	
 	@Bean
-	CommandLineRunner runner() {
+	CommandLineRunner runner(JdbcTemplate jdbcTemplate) {
 		return args -> {
 			
-			repository.save(new Customer("John", "Smith", "john.smith@email.com"));
-			repository.save(new Customer("Mikko", "Virtanen", "mikko.virtanen@sahkoposti.fi"));
+			jdbcTemplate.execute("INSERT INTO Customer VALUES(1, 'John', 'Smith', 'john.smith@email.com')");
+			jdbcTemplate.execute("INSERT INTO Customer VALUES(2, 'Mikko', 'Virtanen', 'mikko.virtanen@sahkoposti.fi')");
+			jdbcTemplate.execute("INSERT INTO Customer VALUES(3, 'Anh', 'Nguyen', 'anh.nguyen@mail.com')");
+			
 		};
 	}
 
